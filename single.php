@@ -1,14 +1,23 @@
 <?php get_header(); ?>
+
         <!-- Page Header -->
         <!-- Set your background image for this header on the line below. -->
-        <header class="intro-header" style="background-image: url('<?php bloginfo("template_url") ?>/img/home-bg.jpg')">
+		<?php 
+		if ( have_posts() ) : while ( have_posts() ) : the_post(); 
+           if ( has_post_thumbnail() ) {
+				$feat_image_url = wp_get_attachment_url( get_post_thumbnail_id() );
+				echo '<header class="intro-header" style="background-image:url('.$feat_image_url.');">'; 
+           }
+           endwhile;
+         endif;
+         ?>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                         <div class="site-heading">
-                            <h1><?php bloginfo('name'); ?></h1>
+                            <h1><?php the_title(); ?></h1>
                             <hr class="small">
-                            <span class="subheading"><?php bloginfo('description'); ?></span>
+                            <span class="subheading">A Clean Blog Theme by Start Bootstrap</span>
                         </div>
                     </div>
                 </div>
@@ -42,11 +51,11 @@
    					while (have_posts()) :
       					the_post(); ?>
 						  <div class="post-preview">
-						  <a href="<?php the_permalink(); ?>"><h2 class="post-title"><?php the_title(); ?></h2>
+						  <?php the_title(); ?></h2>
 							<h3 class="post-subtitle">
-                           		<?php the_excerpt(); ?>
+                           		<?php the_content(); ?>
                         	</h3>  
-						  </a>	  
+						    
          		 		   <p class="post-meta">Posted by
 							<a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a> on <?php the_date(); ?>					 	</div>
 					<hr>
